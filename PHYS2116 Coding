@@ -93,3 +93,9 @@ sample[["pl_name", "pl_radj", "pl_orbper", "pl_eqt", "pl_insol", "pl_bmassj"]].s
 #Save the filtered sample for later use
 sample.to_csv("topic2_hot_jupiters_clean.csv", index=False)
 print("Saved: topic2_hot_jupiters_clean.csv")
+
+#Plot the diagram "Planet radius vs equilibrium temperature"
+os.makedirs("figures", exist_ok=True)
+
+plt.figure(figsize=(8, 5))
+plt.scatter(sample["pl_eqt"], sample["pl_radj"], alpha=0.7)

@@ -111,3 +111,39 @@ plt.title("Planet radius vs equilibrium temperature")
 plt.tight_layout()
 plt.savefig("figures/01_radius_vs_teq.png", bbox_inches="tight")
 plt.show()
+
+#Viewing "transition" through the binning method makes it clearer
+sample["temp_bin"] = pd.qcut(sample["pl_eqt"], q=10, duplicates="drop")
+
+temp_summary = (
+    sample.groupby("temp_bin", observed=False)
+    .agg(
+        teq_mid=("pl_eqt", "median"),
+        rad_med=("pl_radj", "median"),
+        rad_std=("pl_radj", "std"),
+        n=("pl_radj", "size")
+    )
+    .dropna()
+)
+
+temp_summary["rad_sem"] = temp_summary["rad_std"] / np.sqrt(temp_summary["n"])
+
+print(temp_summary)
+plt.figure(figsize=(8, 5))
+plt.errorbar(
+    temp_summary["teq_mid"],
+    temp_summary["rad_med"],
+    yerr=temp_summary["rad_sem"],
+    fmt="o-"
+)
+
+plt.axhline(1.0, linestyle="--")
+plt.axhline(1.2, linestyle=":")
+
+plt.xlabel("Equilibrium temperature (K)")
+plt.ylabel("Median planet radius (Rj)")
+plt.title("Binned trend: radius vs equilibrium temperature")
+plt.tight_layout()
+plt.savefig("figures/02_binned_radius_vs_teq.png", bbox_inches="tight")
+plt.show()
+

@@ -71,3 +71,17 @@ for col in num_cols:
     df[col] = pd.to_numeric(df[col], errors="coerce")
 
 df.dtypes
+
+# Screening “well-characterised transiting hot Jupiters”
+sample = df[
+    (df["tran_flag"] == 1) &
+    (df["pl_orbper"] <= 10) &
+    (df["pl_bmassj"] >= 0.3) &
+    (df["pl_bmassj"] <= 13) &
+    df[["pl_radj", "pl_eqt", "pl_insol", "st_mass", "st_met"]].notna().all(axis=1) &
+    (df["pl_eqt"] > 0) &
+    (df["pl_insol"] > 0)
+].copy()
+
+print("Filtered sample shape:", sample.shape)
+sample.head()

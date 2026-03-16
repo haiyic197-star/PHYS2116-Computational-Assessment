@@ -191,3 +191,14 @@ plt.tight_layout()
 plt.savefig("figures/04_radius_vs_flux.png", bbox_inches="tight")
 plt.show()
 
+#Calculate the coefficient of correlation of radius and flux
+flux_x = np.log10(sample["pl_insol"])
+rad_y = sample["pl_radj"]
+
+pear_r, pear_p = pearsonr(flux_x, rad_y)
+spear_rho, spear_p = spearmanr(flux_x, rad_y)
+
+print("Radius vs log10(flux)")
+print("Pearson r =", pear_r, "p =", pear_p)
+print("Spearman rho =", spear_rho, "p =", spear_p)
+

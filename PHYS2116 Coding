@@ -202,3 +202,20 @@ print("Radius vs log10(flux)")
 print("Pearson r =", pear_r, "p =", pear_p)
 print("Spearman rho =", spear_rho, "p =", spear_p)
 
+# Host0-star mass vs metalicity
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+axes[0].scatter(sample["st_mass"], sample["pl_radj"], alpha=0.7)
+axes[0].set_xlabel("Host star mass (Msun)")
+axes[0].set_ylabel("Planet radius (Rj)")
+axes[0].set_title("Radius vs host star mass")
+
+axes[1].scatter(sample["st_met"], sample["pl_radj"], alpha=0.7)
+axes[1].set_xlabel("Host star metallicity [Fe/H]")
+axes[1].set_ylabel("Planet radius (Rj)")
+axes[1].set_title("Radius vs host star metallicity")
+
+plt.tight_layout()
+plt.savefig("figures/05_radius_vs_host_properties.png", bbox_inches="tight")
+plt.show()
+

@@ -259,3 +259,43 @@ mc["pl_radj_sigma"] = symmetric_sigma(mc["pl_radjerr1"], mc["pl_radjerr2"])
 mc["pl_insol_sigma"] = symmetric_sigma(mc["pl_insolerr1"], mc["pl_insolerr2"])
 mc["st_mass_sigma"] = symmetric_sigma(mc["st_masserr1"], mc["st_masserr2"])
 mc["st_met_sigma"] = symmetric_sigma(mc["st_meterr1"], mc["st_meterr2"])
+
+# Avoid sigma=0 or nan
+for c in ["pl_radj_sigma", "pl_insol_sigma", "st_mass_sigma", "st_met_sigma"]:
+    mc[c] = mc[c].replace(0, np.nan)
+
+mc = mc.dropna().copy()
+print("MC sample size:", len(mc))
+rng = np.random.default_rng(42)
+
+n_iter = 1000
+r_flux_list = []
+r_mass_list = []
+r_met_list = []
+
+for _ in range(n_iter):
+    rad_draw = rng.normal(mc["pl_radj"], mc["pl_radj_sigma"])
+    flux_draw = rng.normal(mc["pl_insol"], mc["pl_insol_sigma"])
+    mass_draw = rng.normal(mc["st_mass"], mc["st_mass_sigma"])
+    met_draw = rng.normal(mc["st_met"], mc["st_met_sigma"])
+    
+    good_flux = flux_draw > 0
+    
+    if good_flux.sum() > 10:
+        r_flux = np.corrcoef(np.log10(flux_draw[good_flux]), rad_draw[good_flux])[0, 1]
+        r_flux_list.append(r_flux)
+    
+    r_mass = np.corrcoef(mass_draw, rad_draw)[0, 1]
+    r_met = np.corrcoef(met_draw, rad_draw)[0, 1]
+    
+    r_mass_list.append(r_mass)
+    r_met_list.append(r_met)
+
+print("Flux correlation median:", np.median(r_flux_list))
+print("Flux correlation 16-84%:", np.percentile(r_flux_list, [16, 84]))
+
+print("Mass correlation median:", np.median(r_mass_list))
+print("Mass correlation 16-84%:", np.percentile(r_mass_list, [16, 84]))
+
+print("Metallicity correlation median:", np.median(r_met_list))
+print("Metallicity correlation 16-84%:", np.percentile(r_met_list, [16, 84]))

@@ -39,17 +39,15 @@ The workflow includes data import, sample filtering, descriptive statistics, sca
 
 ### 1. Clone repository
 ```bash
-git clone <your-repository-link>
-cd <your-project-folder>
+git clone https://github.com/haiyic197-star/PHYS2116-Computational-Assessment.git
 ```
 
 ### 2. Create a virtual environment
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate
-
-For Windows:
-.venv\Scripts\activate
+source .venv/bin/activate # Linux/Mac
+# or
+.venv\Scripts\activate # Windows
 ```
 
 ### 3. Install dependencies
@@ -62,8 +60,9 @@ pip install pandas numpy matplotlib scipy statsmodels jupyter
 jupyter notebook analysis.ipynb
 ```
 
-## Data file
+
 
 ## Contributor
+haiyic197-star (HaiYi Chen)
 
 **Cource:**  PHYS 2116 Computational Assessment (UNSW Sydney)

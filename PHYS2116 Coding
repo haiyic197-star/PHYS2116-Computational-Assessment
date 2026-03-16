@@ -1,0 +1,12 @@
+# First import the necessary libraries for analysing the data and plotting the results.
+import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from scipy.stats import pearsonr, spearmanr
+import statsmodels.api as sm
+
+plt.rcParams["figure.dpi"] = 140
+pd.set_option("display.max_columns", 100)
+

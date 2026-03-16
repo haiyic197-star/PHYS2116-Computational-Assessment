@@ -230,3 +230,14 @@ for xcol in ["st_mass", "st_met"]:
     print(f"\nRadius vs {xcol}")
     print("Pearson r =", pear_r, "p =", pear_p)
     print("Spearman rho =", spear_rho, "p =", spear_p)
+
+#Perform a simple linear regression of radius on log(flux), host mass, and metallicity
+reg_df = sample[["pl_radj", "pl_insol", "st_mass", "st_met"]].dropna().copy()
+reg_df["log_insol"] = np.log10(reg_df["pl_insol"])
+
+X = reg_df[["log_insol", "st_mass", "st_met"]]
+X = sm.add_constant(X)
+y = reg_df["pl_radj"]
+
+model = sm.OLS(y, X).fit()
+print(model.summary())

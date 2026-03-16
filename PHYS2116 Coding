@@ -85,3 +85,8 @@ sample = df[
 
 print("Filtered sample shape:", sample.shape)
 sample.head()
+
+#Quickly check the distributions of key parameters
+print(sample[["pl_radj", "pl_orbper", "pl_eqt", "pl_insol", "pl_bmassj", "st_mass", "st_met"]].describe())
+sample[["pl_name", "pl_radj", "pl_orbper", "pl_eqt", "pl_insol", "pl_bmassj"]].sort_values("pl_radj", ascending=False).head(10)
+

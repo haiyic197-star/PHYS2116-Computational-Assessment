@@ -62,3 +62,12 @@ keep_cols = [
 df = raw[keep_cols].copy()
 print(df.shape)
 df.head()
+
+# Convert columns to numeric, coercing errors to NaN
+text_cols = ["pl_name", "hostname"]
+num_cols = [c for c in df.columns if c not in text_cols]
+
+for col in num_cols:
+    df[col] = pd.to_numeric(df[col], errors="coerce")
+
+df.dtypes

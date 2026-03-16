@@ -312,3 +312,19 @@ plt.show()
 
 #Making a summary table of the correlation results
 summary_rows = []
+
+# flux
+pear_r, pear_p = pearsonr(np.log10(sample["pl_insol"]), sample["pl_radj"])
+summary_rows.append({
+    "relationship": "radius vs log10(flux)",
+    "pearson_r": pear_r,
+    "pearson_p": pear_p
+})
+
+# mass
+pear_r, pear_p = pearsonr(sample["st_mass"], sample["pl_radj"])
+summary_rows.append({
+    "relationship": "radius vs stellar mass",
+    "pearson_r": pear_r,
+    "pearson_p": pear_p
+})

@@ -22,3 +22,43 @@ if not os.path.exists(file_path):
 
 # Read data
 raw = pd.read_csv(file_path, comment="#", low_memory=False)
+
+# Basic inspection
+print("Raw shape:", raw.shape)
+print(raw.head())
+print(raw.columns.tolist())
+
+#Only keep the columns we need for our analysis
+keep_cols = [
+    "pl_name",
+    "hostname",
+    "tran_flag",
+    "pl_radj",
+    "pl_radjerr1",
+    "pl_radjerr2",
+    "pl_orbper",
+    "pl_orbpererr1",
+    "pl_orbpererr2",
+    "pl_eqt",
+    "pl_eqterr1",
+    "pl_eqterr2",
+    "pl_insol",
+    "pl_insolerr1",
+    "pl_insolerr2",
+    "pl_bmassj",
+    "pl_bmassjerr1",
+    "pl_bmassjerr2",
+    "st_mass",
+    "st_masserr1",
+    "st_masserr2",
+    "st_met",
+    "st_meterr1",
+    "st_meterr2",
+    "st_teff",
+    "st_rad",
+    "pl_dens"
+]
+
+df = raw[keep_cols].copy()
+print(df.shape)
+df.head()

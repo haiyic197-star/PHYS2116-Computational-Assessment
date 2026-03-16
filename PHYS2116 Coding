@@ -99,3 +99,15 @@ os.makedirs("figures", exist_ok=True)
 
 plt.figure(figsize=(8, 5))
 plt.scatter(sample["pl_eqt"], sample["pl_radj"], alpha=0.7)
+
+# 1.0 RJ is approximately equivalent to the benchmark of an ordinary gas giant.
+plt.axhline(1.0, linestyle="--")
+# 1.2 The RJ value can be regarded as a simple reference threshold for inflation.
+plt.axhline(1.2, linestyle=":")
+
+plt.xlabel("Equilibrium temperature (K)")
+plt.ylabel("Planet radius (Rj)")
+plt.title("Planet radius vs equilibrium temperature")
+plt.tight_layout()
+plt.savefig("figures/01_radius_vs_teq.png", bbox_inches="tight")
+plt.show()

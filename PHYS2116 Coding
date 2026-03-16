@@ -10,3 +10,5 @@ import statsmodels.api as sm
 plt.rcParams["figure.dpi"] = 140
 pd.set_option("display.max_columns", 100)
 
+# Check current working directory
+print("Current working directory:", os.getcwd())

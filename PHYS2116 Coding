@@ -86,15 +86,15 @@ sample = df[
 print("Filtered sample shape:", sample.shape)
 sample.head()
 
-#Quickly check the distributions of key parameters
+# Quickly check the distributions of key parameters
 print(sample[["pl_radj", "pl_orbper", "pl_eqt", "pl_insol", "pl_bmassj", "st_mass", "st_met"]].describe())
 sample[["pl_name", "pl_radj", "pl_orbper", "pl_eqt", "pl_insol", "pl_bmassj"]].sort_values("pl_radj", ascending=False).head(10)
 
-#Save the filtered sample for later use
+# Save the filtered sample for later use
 sample.to_csv("topic2_hot_jupiters_clean.csv", index=False)
 print("Saved: topic2_hot_jupiters_clean.csv")
 
-#Plot the diagram "Planet radius vs equilibrium temperature"
+# Plot the diagram "Planet radius vs equilibrium temperature"
 os.makedirs("figures", exist_ok=True)
 
 plt.figure(figsize=(8, 5))
@@ -102,7 +102,7 @@ plt.scatter(sample["pl_eqt"], sample["pl_radj"], alpha=0.7)
 
 # 1.0 RJ is approximately equivalent to the benchmark of an ordinary gas giant.
 plt.axhline(1.0, linestyle="--")
-# 1.2 The RJ value can be regarded as a simple reference threshold for inflation.
+# 1.2 The RJ value can be regarded as a simple reference threshold for inflation.(Diafgram 1))
 plt.axhline(1.2, linestyle=":")
 
 plt.xlabel("Equilibrium temperature (K)")
@@ -112,7 +112,7 @@ plt.tight_layout()
 plt.savefig("figures/01_radius_vs_teq.png", bbox_inches="tight")
 plt.show()
 
-#Viewing "transition" through the binning method makes it clearer
+# Viewing "transition" through the binning method makes it clearer (Diagram 2)
 sample["temp_bin"] = pd.qcut(sample["pl_eqt"], q=10, duplicates="drop")
 
 temp_summary = (
@@ -147,7 +147,7 @@ plt.tight_layout()
 plt.savefig("figures/02_binned_radius_vs_teq.png", bbox_inches="tight")
 plt.show()
 
-#Perform a simple transition scan
+# Perform a simple transition scan (Diagram 3)
 thresholds = np.arange(800, 2501, 50)
 rows = []
 
@@ -177,7 +177,7 @@ plt.show()
 best_row = transition_df.loc[transition_df["radius_jump"].idxmax()]
 print("Heuristic transition temperature ~", best_row["T_threshold"], "K")
 
-#Incident flux influence
+#Incident flux influence (Diagram 4)
 plt.figure(figsize=(8, 5))
 plt.scatter(sample["pl_insol"], sample["pl_radj"], alpha=0.7)
 plt.xscale("log")
@@ -202,7 +202,7 @@ print("Radius vs log10(flux)")
 print("Pearson r =", pear_r, "p =", pear_p)
 print("Spearman rho =", spear_rho, "p =", spear_p)
 
-# Host0-star mass vs metalicity
+# Host0-star mass vs metalicity(Diagram 5)
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
 axes[0].scatter(sample["st_mass"], sample["pl_radj"], alpha=0.7)
@@ -219,3 +219,14 @@ plt.tight_layout()
 plt.savefig("figures/05_radius_vs_host_properties.png", bbox_inches="tight")
 plt.show()
 
+#Calculate correlation coefficients for host star mass and metallicity
+for xcol in ["st_mass", "st_met"]:
+    x = sample[xcol]
+    y = sample["pl_radj"]
+
+    pear_r, pear_p = pearsonr(x, y)
+    spear_rho, spear_p = spearmanr(x, y)
+
+    print(f"\nRadius vs {xcol}")
+    print("Pearson r =", pear_r, "p =", pear_p)
+    print("Spearman rho =", spear_rho, "p =", spear_p)

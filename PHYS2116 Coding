@@ -15,3 +15,7 @@ print("Current working directory:", os.getcwd())
 
 # Read the CSV file
 file_path = "PSCompPars_2026.03.15_01.30.06.csv"
+
+# Check whether the file exists
+if not os.path.exists(file_path):
+    raise FileNotFoundError(f"Cannot find file: {file_path}")

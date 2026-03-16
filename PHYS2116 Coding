@@ -90,3 +90,6 @@ sample.head()
 print(sample[["pl_radj", "pl_orbper", "pl_eqt", "pl_insol", "pl_bmassj", "st_mass", "st_met"]].describe())
 sample[["pl_name", "pl_radj", "pl_orbper", "pl_eqt", "pl_insol", "pl_bmassj"]].sort_values("pl_radj", ascending=False).head(10)
 
+#Save the filtered sample for later use
+sample.to_csv("topic2_hot_jupiters_clean.csv", index=False)
+print("Saved: topic2_hot_jupiters_clean.csv")

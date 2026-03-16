@@ -309,3 +309,6 @@ plt.title("Monte Carlo uncertainty test")
 plt.tight_layout()
 plt.savefig("figures/06_mc_flux_correlation.png", bbox_inches="tight")
 plt.show()
+
+#Making a summary table of the correlation results
+summary_rows = []

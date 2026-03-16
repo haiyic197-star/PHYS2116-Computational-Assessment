@@ -299,3 +299,13 @@ print("Mass correlation 16-84%:", np.percentile(r_mass_list, [16, 84]))
 
 print("Metallicity correlation median:", np.median(r_met_list))
 print("Metallicity correlation 16-84%:", np.percentile(r_met_list, [16, 84]))
+
+#Ploting the uncertainty distributions
+plt.figure(figsize=(8, 5))
+plt.hist(r_flux_list, bins=30, alpha=0.8)
+plt.xlabel("Correlation coefficient: radius vs log10(flux)")
+plt.ylabel("Count")
+plt.title("Monte Carlo uncertainty test")
+plt.tight_layout()
+plt.savefig("figures/06_mc_flux_correlation.png", bbox_inches="tight")
+plt.show()

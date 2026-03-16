@@ -241,3 +241,21 @@ y = reg_df["pl_radj"]
 
 model = sm.OLS(y, X).fit()
 print(model.summary())
+
+#Observatioanl uncertainties
+mc = sample[
+    [
+        "pl_radj", "pl_radjerr1", "pl_radjerr2",
+        "pl_insol", "pl_insolerr1", "pl_insolerr2",
+        "st_mass", "st_masserr1", "st_masserr2",
+        "st_met", "st_meterr1", "st_meterr2"
+    ]
+].dropna().copy()
+
+def symmetric_sigma(err_plus, err_minus):
+    return (np.abs(err_plus) + np.abs(err_minus)) / 2
+
+mc["pl_radj_sigma"] = symmetric_sigma(mc["pl_radjerr1"], mc["pl_radjerr2"])
+mc["pl_insol_sigma"] = symmetric_sigma(mc["pl_insolerr1"], mc["pl_insolerr2"])
+mc["st_mass_sigma"] = symmetric_sigma(mc["st_masserr1"], mc["st_masserr2"])
+mc["st_met_sigma"] = symmetric_sigma(mc["st_meterr1"], mc["st_meterr2"])

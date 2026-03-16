@@ -177,3 +177,17 @@ plt.show()
 best_row = transition_df.loc[transition_df["radius_jump"].idxmax()]
 print("Heuristic transition temperature ~", best_row["T_threshold"], "K")
 
+#Incident flux influence
+plt.figure(figsize=(8, 5))
+plt.scatter(sample["pl_insol"], sample["pl_radj"], alpha=0.7)
+plt.xscale("log")
+plt.axhline(1.0, linestyle="--")
+plt.axhline(1.2, linestyle=":")
+
+plt.xlabel("Incident flux (Earth flux units)")
+plt.ylabel("Planet radius (Rj)")
+plt.title("Planet radius vs incident flux")
+plt.tight_layout()
+plt.savefig("figures/04_radius_vs_flux.png", bbox_inches="tight")
+plt.show()
+

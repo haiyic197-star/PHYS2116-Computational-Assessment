@@ -147,3 +147,33 @@ plt.tight_layout()
 plt.savefig("figures/02_binned_radius_vs_teq.png", bbox_inches="tight")
 plt.show()
 
+#Perform a simple transition scan
+thresholds = np.arange(800, 2501, 50)
+rows = []
+
+for T in thresholds:
+    cool = sample.loc[sample["pl_eqt"] < T, "pl_radj"].dropna()
+    hot = sample.loc[sample["pl_eqt"] >= T, "pl_radj"].dropna()
+    
+    if len(cool) >= 20 and len(hot) >= 20:
+        rows.append({
+            "T_threshold": T,
+            "mean_radius_cool": cool.mean(),
+            "mean_radius_hot": hot.mean(),
+            "radius_jump": hot.mean() - cool.mean()
+        })
+
+transition_df = pd.DataFrame(rows)
+print(transition_df.head())
+plt.figure(figsize=(8, 5))
+plt.plot(transition_df["T_threshold"], transition_df["radius_jump"])
+plt.xlabel("Temperature threshold (K)")
+plt.ylabel("Mean radius difference (hot - cool) [Rj]")
+plt.title("Heuristic scan for transition temperature")
+plt.tight_layout()
+plt.savefig("figures/03_transition_scan.png", bbox_inches="tight")
+plt.show()
+
+best_row = transition_df.loc[transition_df["radius_jump"].idxmax()]
+print("Heuristic transition temperature ~", best_row["T_threshold"], "K")
+
